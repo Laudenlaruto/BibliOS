@@ -11,7 +11,7 @@ public class Main {
             System.out.println("Bonjour, bienvue dans la bibliothéque national");
             ArrayList<Media> medias = new ArrayList<Media>();
             ArrayList<Personne> users = new ArrayList<Personne>();
-            BaseDeDonée bd = new BaseDeDonée();
+            BaseDeDonee bd = new BaseDeDonee();
             medias = bd.loadMedia();
             users = bd.loadUsers();
 

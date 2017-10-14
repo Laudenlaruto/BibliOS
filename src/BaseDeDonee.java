@@ -4,14 +4,14 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-public class BaseDeDonée {
+public class BaseDeDonee {
     public Connection con;
 
-    public BaseDeDonée() throws SQLException, ClassNotFoundException
+    public BaseDeDonee() throws SQLException, ClassNotFoundException
     {
         try{
         Class.forName("com.mysql.jdbc.Driver");
-        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","");
+        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/bnf","root","");
         /*ResultSet rs=stmt.executeQuery("select * from emp");
         while(rs.next())
             System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
