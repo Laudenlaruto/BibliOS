@@ -13,7 +13,7 @@ public class Main {
             ArrayList<Personne> users = new ArrayList<Personne>();
             BaseDeDonee bd = new BaseDeDonee();
             medias = bd.loadMedia();
-            users = bd.loadUsers();
+            users = bd.loadUsers(medias);
 
 
 

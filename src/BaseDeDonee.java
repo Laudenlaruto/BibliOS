@@ -1,8 +1,12 @@
 /**
  * Created by Titan on 14/10/2017.
  */
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class BaseDeDonee {
     public Connection con;
@@ -33,7 +37,7 @@ public class BaseDeDonee {
             }
             ResultSet rs2 = stmt.executeQuery("select * from cd");
             while (rs2.next()){
-                medias.add(new Cd(rs1.getString(1),rs1.getString(2),rs1.getString(3),rs1.getString(4),rs1.getInt(5)));
+                medias.add(new Cd(rs2.getString(1),rs2.getString(2),rs2.getString(3),rs2.getString(4),rs2.getInt(5)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,10 +48,45 @@ public class BaseDeDonee {
     }
 
 
-    public ArrayList<Personne> loadUsers() {
+    public ArrayList<Personne> loadUsers(ArrayList<Media> medias) {
         ArrayList<Personne> users = new ArrayList<Personne>();
+        try {
+            Statement stmt2 = con.createStatement();
+            ResultSet rs = stmt2.executeQuery("select * from user");
+            while (rs.next()){
+                users.add(new Personne(rs.getString(1),rs.getString(2)));
+            }
 
+            ResultSet rs2 = stmt2.executeQuery("select * from emprunt");
+            while (rs2.next()){
+                //emprunt.put(rs2.getString(1),rs2.getString(2));
+                for(int i =0; i<users.size();i++){
+                    if(users.get(i).getNom().equals(rs2.getString(1))){
+                       for (int j=0;j <medias.size();j++){
+                           if (medias.get(j).getTitre().equals(rs2.getString(2))){
+                               users.get(i).addToHistorique(medias.get(j));
+                           }
+                       }
+                    }
+                }
+
+
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return users;
     }
+    private boolean userexist(ArrayList<Personne> personnes,Object user){
+        for(int i =0; i<personnes.size();i++){
+           if(personnes.get(i).getNom().equals(user)){
+               return true;
+            }
+        }
+        return false;
+    }
+
 }
 

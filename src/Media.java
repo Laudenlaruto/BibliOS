@@ -9,4 +9,12 @@ public class Media {
         this.titre = titre;
         this.genre = genre;
     }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
 }
