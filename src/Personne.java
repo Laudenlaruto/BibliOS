@@ -31,4 +31,13 @@ public class Personne {
     public ArrayList<Media> getHistoriquePrêt() {
         return historiquePrêt;
     }
+
+    @Override
+    public String toString() {
+        return "Personne{" +
+                "nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", historiquePrêt=" + historiquePrêt +
+                '}';
+    }
 }

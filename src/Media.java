@@ -17,4 +17,5 @@ public class Media {
     public String getGenre() {
         return genre;
     }
+
 }
