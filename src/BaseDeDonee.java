@@ -1,12 +1,9 @@
 /**
  * Created by Titan on 14/10/2017.
  */
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 
 public class BaseDeDonee {
     public Connection con;
@@ -71,6 +68,21 @@ public class BaseDeDonee {
         }
         return users;
     }
+    public void generateRetard(){
+        Statement stmt = null;
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from emprunt");
+            while (rs.next()){
+                if(rs.getDate(3).before(new java.util.Date())){
+                    System.out.println("Retard de :"+rs.getString(1)+", media: "+rs.getString(2));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
     public void addLivre(Livre livre){
         try {
             PreparedStatement ps=con.prepareStatement("insert into livre values(?,?,?,?,?)");
@@ -110,6 +122,29 @@ public class BaseDeDonee {
             e.printStackTrace();
         }
     }
-
+    public void addUser(Personne personne){
+        try {
+            PreparedStatement ps=con.prepareStatement("insert into user values(?,?)");
+            ps.setString(1,personne.getNom());
+            ps.setString(2,personne.getPrenom());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void addEmprunt(Personne personne, Media media)
+    {
+        try {
+            PreparedStatement ps=con.prepareStatement("insert into emprunt values(?,?,?)");
+            ps.setString(1,personne.getNom());
+            ps.setString(2,media.getTitre());
+            java.sql.Date sqlDate =  new java.sql.Date(System.currentTimeMillis());
+            ps.setDate(3, sqlDate);
+            ps.executeUpdate();
+            personne.addToHistorique(media);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
