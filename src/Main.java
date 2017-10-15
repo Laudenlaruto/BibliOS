@@ -14,6 +14,8 @@ public class Main {
             BaseDeDonee bd = new BaseDeDonee();
             medias = bd.loadMedia();
             users = bd.loadUsers(medias);
+            //Livre livre = new Livre("L'apprenti","Fantasy","JohnFlanagan",150,"FHEAPIHFPIAHF");
+            //bd.addLivre(livre);
 
 
 

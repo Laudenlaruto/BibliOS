@@ -16,10 +16,6 @@ public class BaseDeDonee {
         try{
         Class.forName("com.mysql.jdbc.Driver");
         con=DriverManager.getConnection("jdbc:mysql://localhost:3306/bnf","root","");
-        /*ResultSet rs=stmt.executeQuery("select * from emp");
-        while(rs.next())
-            System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-        con.close();*/
         }catch(Exception e){ System.out.println(e);}
     }
 
@@ -59,7 +55,6 @@ public class BaseDeDonee {
 
             ResultSet rs2 = stmt2.executeQuery("select * from emprunt");
             while (rs2.next()){
-                //emprunt.put(rs2.getString(1),rs2.getString(2));
                 for(int i =0; i<users.size();i++){
                     if(users.get(i).getNom().equals(rs2.getString(1))){
                        for (int j=0;j <medias.size();j++){
@@ -69,9 +64,6 @@ public class BaseDeDonee {
                        }
                     }
                 }
-
-
-
             }
 
         } catch (SQLException e) {
@@ -79,13 +71,44 @@ public class BaseDeDonee {
         }
         return users;
     }
-    private boolean userexist(ArrayList<Personne> personnes,Object user){
-        for(int i =0; i<personnes.size();i++){
-           if(personnes.get(i).getNom().equals(user)){
-               return true;
-            }
+    public void addLivre(Livre livre){
+        try {
+            PreparedStatement ps=con.prepareStatement("insert into livre values(?,?,?,?,?)");
+            ps.setString(1,livre.getTitre());
+            ps.setString(2,livre.getGenre());
+            ps.setString(3,livre.getAuteur());
+            ps.setInt(4,livre.getNbPages());
+            ps.setString(5,livre.getISBN());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return false;
+    }
+    public void addCd(Cd cd){
+        try {
+            PreparedStatement ps=con.prepareStatement("insert into livre values(?,?,?,?,?)");
+            ps.setString(1,cd.getTitre());
+            ps.setString(2,cd.getGenre());
+            ps.setString(3,cd.getAuteur());
+            ps.setString(4,cd.getCompositeur());
+            ps.setInt(5,cd.getDurée());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void addCd(Dvd dvd){
+        try {
+            PreparedStatement ps=con.prepareStatement("insert into livre values(?,?,?,?,?)");
+            ps.setString(1,dvd.getTitre());
+            ps.setString(2,dvd.getGenre());
+            ps.setString(3,dvd.getRealisateur());
+            ps.setString(4,dvd.getActeur());
+            ps.setInt(5,dvd.getDurée());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

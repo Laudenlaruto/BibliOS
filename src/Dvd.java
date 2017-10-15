@@ -6,7 +6,20 @@ public class Dvd extends Media {
     private String acteur;
     private int durée;
 
+    public String getRealisateur() {
+        return realisateur;
+    }
+
+    public String getActeur() {
+        return acteur;
+    }
+
+    public int getDurée() {
+        return durée;
+    }
+
     public Dvd(String titre, String genre, String realisateur, String acteur, int durée) {
+
         super(titre, genre);
         this.realisateur = realisateur;
         this.acteur = acteur;
