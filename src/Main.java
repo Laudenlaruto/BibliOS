@@ -22,15 +22,18 @@ public class Main {
                 case 1:
                     Personne pers = seConnecter();
                     if (pers != null) {
-                        int res = menuConnecter();
-                        if (res == 2) {
-                            ArrayList<Livre> livres = rechercherLivre();
-                            if (livres.size() > 0) {
-                                afficherListeLivre(livres);
+                        int res ;
+                        do {
+                            res=menuConnecter();
+                            if (res == 2) {
+                                ArrayList<Livre> livres = rechercherLivre();
+                                if (livres.size() > 0) {
+                                    afficherListeLivre(livres);
+                                }
+                            } else if (res == 1) {
+                                emprunterLivre(pers);
                             }
-                        } else if (res == 1) {
-                            emprunterLivre(pers);
-                        }
+                        }while (res!=3);
                     } else
                         System.out.print("Utilisateur non reconnu");
                     break;
@@ -64,7 +67,7 @@ public class Main {
 
     private static int menuConnecter() {
         Scanner reader = new Scanner(System.in);
-        System.out.println("Entrer votre choix :\n1 - Emprunter un livre\n2 - Rechercher un livre\n ");
+        System.out.println("\nEntrer votre choix :\n1 - Emprunter un livre\n2 - Rechercher un livre\n3 - Quitter\n");
         int n = reader.nextInt();
         return n;
     }
