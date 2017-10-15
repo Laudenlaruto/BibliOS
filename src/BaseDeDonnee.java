@@ -86,22 +86,21 @@ public class BaseDeDonnee {
 
     }
 
-    public boolean selectUser(String nom, String prenom) {
+    public Personne selectUser(String nom, String prenom) {
         Statement stmt = null;
         try {
             stmt = con.createStatement();
             PreparedStatement ps = con.prepareStatement("select * from user where nom =? and prenom=?");
-            ps.setString(1,nom);
-            ps.setString(2,prenom);
+            ps.setString(1, nom.toLowerCase());
+            ps.setString(2, prenom.toLowerCase());
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                System.out.println("User :"+ rs.getString(1)+rs.getString(2));
-                return true;
+            if (rs.next()) {
+                return new Personne(rs.getString(1),rs.getString(2));
             }
-            return false;
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
@@ -169,6 +168,24 @@ public class BaseDeDonnee {
             personne.addToHistorique(media);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Livre> selectLivre(String livre) {
+        try {
+            PreparedStatement ps = con.prepareStatement("select * from livre where titre LIKE ?");
+            ps.setString(1, "%" + livre.toLowerCase() + "%");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Livre> livres = new ArrayList<>();
+
+            while(rs.next()){
+                livres.add(new Livre(rs.getString(1),rs.getString(2),rs.getString(3),Integer.parseInt(rs.getString(4)),rs.getString(5)));
+            }
+            return livres;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

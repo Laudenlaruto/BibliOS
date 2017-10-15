@@ -7,6 +7,7 @@ import java.util.Scanner;
  */
 public class Main {
     private static BaseDeDonnee bd;
+
     public static void main(String[] args) {
 
         try {
@@ -19,13 +20,25 @@ public class Main {
 
             switch (menuLancement()) {
                 case 1:
-                    if(seConnecter()){
+                    Personne pers = seConnecter();
+                    if (pers != null) {
                         int res = menuConnecter();
-                    }else
+                        if (res == 2) {
+                            ArrayList<Livre> livres = rechercherLivre();
+                            if (livres.size() > 0) {
+                                afficherListeLivre(livres);
+                            }
+                        } else if (res == 1) {
+                            emprunterLivre(pers);
+                        }
+                    } else
                         System.out.print("Utilisateur non reconnu");
                     break;
                 case 2:
-                    rechercherLivre();
+                    afficherListeLivre(rechercherLivre());
+                    break;
+
+                default:
                     break;
             }
 
@@ -35,7 +48,18 @@ public class Main {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
 
+    private static void emprunterLivre(Personne pers) {
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Entrer le titre du livre que vous voulez emprunter:");
+        String titre = reader.nextLine();
+        ArrayList<Livre> livresEmprunter = bd.selectLivre(titre);
+        if (livresEmprunter.size() > 0) {
+            bd.addEmprunt(pers, livresEmprunter.get(0));
+            System.out.println("Le livre a été emprunté");
+        } else
+            System.out.println("Aucun livre ne correspond à voter recherche");
     }
 
     private static int menuConnecter() {
@@ -45,16 +69,20 @@ public class Main {
         return n;
     }
 
-    private static void rechercherLivre() {
+    private static ArrayList<Livre> rechercherLivre() {
+        Scanner reader = new Scanner(System.in);
+        System.out.println("Entrer le titre du livre:");
+        String titre = reader.nextLine();
+        return bd.selectLivre(titre);
     }
 
-    private static boolean seConnecter() {
+    private static Personne seConnecter() {
         Scanner reader = new Scanner(System.in);
         System.out.println("Entrer votre nom :");
         String nom = reader.nextLine();
         System.out.println("Entrer votre prenom :");
         String prenom = reader.nextLine();
-        return bd.selectUser(nom,prenom);
+        return bd.selectUser(nom, prenom);
     }
 
     private static int menuLancement() {
@@ -62,5 +90,13 @@ public class Main {
         System.out.println("Entrer votre choix :\n1 - Se connecter\n2 - Rechercher un livre\n ");
         int n = reader.nextInt();
         return n;
+    }
+
+
+    private static void afficherListeLivre(ArrayList<Livre> livres) {
+        System.out.println("Voici la liste des livres :");
+        for (Livre livre : livres) {
+            System.out.println(livre.toString());
+        }
     }
 }
